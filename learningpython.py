@@ -332,3 +332,146 @@ a = 1 b = 2 c = 3 d = 88 kw = {'x': '#'}
 
 ————————————————————————
 递归函数
+def fact(n):
+    if n==1:
+        return 1
+    return n * fact(n - 1)
+
+汉诺塔问题的递归，好精彩：
+def move(n,a,b,c):
+    if n==1:
+        print(a,'→',c)
+    else:
+        move(n-1,a,c,b)# 将n-1个盘子由所在地移动到转存地。
+        move(1,a,b,c)# 将最底下的盘子移动到目标地。
+        move(n-1,b,a,c)# 将余下的n-1个盘子再由转存地移动到目标地。
+move(6,'A','B','C')
+
+————————————————————————
+切片：
+L = ['Michael', 'Sarah', 'Tracy', 'Bob', 'Jack']
+L[1:3]
+>>> ['Sarah', 'Tracy']
+
+>>> L[-2:]
+['Bob', 'Jack']
+>>> L[-2:-1]
+['Bob']
+L[0:3]表示，从索引0开始取，直到索引3为止，但不包括索引3
+
+
+产生1:9的 list:
+>>> list(range(1,10))
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+或者
+L = list(range(100))
+print(L[1:10])
+
+
+前10个数每两个数取一个
+>>> L[:10:2]
+[0, 2, 4, 6, 8]
+
+全部数，每隔5个取一个
+L[::5]
+
+直接复制一个L
+L[:]
+
+
+tuple 也可以直接切片
+print((0,1,2,3,4,5,6)[0:3])
+或者
+L = tuple(range(100))
+print(L[0:3])
+
+字符串也可以：（直接切片）
+>>> 'ABCDEFG'[:3]
+'ABC'
+>>> 'ABCDEFG'[::2]
+'ACEG'
+
+————————————————————————
+Python的蜜汁循环迭代：
+对于 dict:
+默认是对key循环：
+d = {'a': 1, 'b': 2, 'c': 3}
+for key in d():
+    print(key)
+
+如果要对值循环的话：加上".values"
+d = {'a': 1, 'b': 2, 'c': 3}
+for key in d.values():
+    print(key)
+
+
+对字符串也行：
+for ch in 'ABC':
+    print(ch)
+A
+B
+C
+>>> 
+
+用 enumerate()函数强行建立索引， enumerate(枚举的意思)
+for i, value in enumerate(['A', 'B', 'C']):
+     print(i, value)
+0 A
+1 B
+2 C
+>>> 
+
+蜜汁循环系列：
+for x, y in [(1, 1), (2, 4), (3, 9)]:
+     print(x, y)
+1 1
+2 4
+3 9
+>>> 
+
+————————————————————————
+列表生成式
+list(range(1, 11))
+
+如果要生成：[1x1, 2x2, 3x3, ..., 10x10]
+可以考虑循环：
+L = []
+for x in range(1, 11):
+    L.append(x * x)
+
+或者用列表生成式：****
+L=[x*x for x in range(1,11)]
+print(L)
+还可以增加判断
+>>> [x * x for x in range(1, 11) if x % 2 == 0]
+[4, 16, 36, 64, 100]
+
+还可以使用两层循环：
+>>> [m + n for m in 'ABC' for n in 'XYZ']
+['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
+
+dict的items()可以同时迭代key和value：
+d = {'x': 'A', 'y': 'B', 'z': 'C' }
+for k, v in d.items():
+     print(k, '=', v)
+y = B
+x = A
+z = C
+
+其他用法
+>>> d = {'x': 'A', 'y': 'B', 'z': 'C' }
+>>> [k + '=' + v for k, v in d.items()]
+['y=B', 'x=A', 'z=C']
+
+最后把一个list中所有的字符串变成小写：
+
+>>> L = ['Hello', 'World', 'IBM', 'Apple']
+>>> [s.lower() for s in L]
+['hello', 'world', 'ibm', 'apple']
+
+作业：将L1的字符串变小写（lower对非字符串会报错）
+L1 = ['Hello', 'World', 18, 'Apple', None]
+L2=[s.lower() for s in L1 if isinstance(s,str)]
+print(L2)
+
+————————————————————————
