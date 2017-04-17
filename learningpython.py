@@ -578,7 +578,8 @@ print(same(2,sqrt,abs))
 ————————————————————————
 map/reduce 函数
 
-map(f,Iterable)→Iterator: 用法格式（所以最后要用一个 list 处理）
+map(f,Iterable)→::generator（Iterator，也就是一个惰性序列）
+ 用法格式（所以最后要用一个 list 处理）
 def f(x):
     return x*x
 r=map(f,list(range(1,10)))
@@ -706,3 +707,100 @@ def str2float(s):
 print('str2float(\'123.456\') =', str2float('123.456'))
 
 ————————————————————————
+filter(f,list)→:generator（Iterator，也就是一个惰性序列）
+ 用法格式（所以最后要用一个 list 处理）
+f作用于 list 上，给出 True 和 False,True 留下
+
+去掉偶数：
+def is_odd(n):
+    return n % 2 == 1
+list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
+# 结果: [1, 5, 9, 15]
+
+去掉空白和 None
+def not_empty(s):
+    return s and s.strip()#strip()可以去掉 str 首尾的空白
+L=list(filter(not_empty, ['A', '', 'B', None, 'C', '  ']))
+print(L)
+
+
+————————————————————————
+用 filter 筛选素数
+def _odd_iter():#生成无穷奇数列
+    n = 1
+    while True:
+        n = n + 2
+        yield n
+        
+def _not_divisible(n):
+    return lambda x: x % n > 0
+
+
+def primes():
+    yield 2
+    it = _odd_iter() # 初始序列
+    while True:
+        n = next(it) # 返回序列的第一个数
+        yield n
+        it = filter(_not_divisible(n), it) # 构造新序列
+
+        
+# 打印1000以内的素数:
+for n in primes():
+    if n < 1000:
+        print(n)
+    else:
+        break
+
+
+习题：请利用filter()滤掉非回数：例如 12321，909
+def is_palindrome(n):
+    temp=str(int(n))
+    test=0
+    for x in range(round(len(temp)/2)):
+        if temp[x]==temp[-x-1]:
+            pass
+        else:
+            test=1
+    if test==1:
+        return False
+    else:
+        return True
+
+output = filter(is_palindrome, range(1, 1000))
+print(list(output))
+
+
+神解答：给跪了：
+def is_palindrome(n):
+        return str(n)==str(n)[::-1]# [::2]表示每隔2个取一个
+
+output = filter(is_palindrome, range(1, 1000))
+print(list(output))
+
+————————————————————————
+排序算法 sorted():
+
+按绝对值大小排序
+>>> sorted([36, 5, -12, 9, -21], key=abs)
+[5, 9, -12, -21, 36]
+
+无视大小写排序（否则大写都在小写前面
+sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
+['about', 'bob', 'Credit', 'Zoo']
+
+要进行反向排序，不必改动key函数，可以传入第三个参数reverse=True：
+reverse （倒退的意思）
+>>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
+['Zoo', 'Credit', 'bob', 'about']
+
+习题：
+假设我们用一组tuple表示学生名字和成绩：
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+请用sorted()对上述列表分别按名字排序：
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+def by_name(t):
+
+L2 = sorted(L, key=by_name)
+print(L2)
