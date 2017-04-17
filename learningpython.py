@@ -535,4 +535,174 @@ triangle(5)
         n=n+1
 for k in triangle(5):
     print(k)
+————————————————————————
 
+迭代器
+你可能会问，为什么 list、dict、str 等数据类型不是Iterator？
+他们都是可迭代的（Iterable）
+
+这是因为Python的Iterator对象表示的是一个数据流，
+Iterator对象可以被next()函数调用并不断返回下一个数据，
+直到没有数据时抛出StopIteration错误。
+可以把这个数据流看做是一个有序序列，
+但我们却不能提前知道序列的长度，
+只能不断通过next()函数实现按需计算下一个数据，
+所以Iterator的计算是惰性的，
+只有在需要返回下一个数据时它才会计算。
+
+把 list、dict、str 等Iterable变成Iterator可以使用 iter()函数：
+>>> isinstance(iter([]), Iterator)
+True
+>>> isinstance(iter('abc'), Iterator)
+True
+
+1.凡是可作用于for循环的对象都是Iterable类型；
+2.凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
+3.集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+4.Python的for循环本质上就是通过不断调用next()函数实现的
+
+————————————————————————
+函数式编程
+允许把函数本身作为参数传入另一个函数，还允许返回一个函数
+def add(x,y,f):
+    return f(x)+f(y)
+print(add(-5,6,abs))
+传函数
+
+from math import sqrt
+def same(x,*fs):
+    s=[f(x) for f in fs]
+    return s
+print(same(2,sqrt,abs))
+
+————————————————————————
+map/reduce 函数
+
+map(f,Iterable)→Iterator: 用法格式（所以最后要用一个 list 处理）
+def f(x):
+    return x*x
+r=map(f,list(range(1,10)))
+print(list(r))
+>>>[1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+再例如：将一串数字变为字符串：
+print(list(map(str,list((range(1,10))))))
+['1', '2', '3', '4', '5', '6', '7', '8', '9']
+>>> 
+
+
+————————————————————————
+reduce 函数
+reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
+要加这句“ from functools import reduce”
+实现数列求和：
+from functools import reduce
+def add(x,y):
+    return x+y
+print(reduce(add,list(range(1,10))))
+
+
+把序列[1, 3, 5, 7, 9]变换成整数13579:
+from functools import reduce
+def add(x,y):
+    return x*10+y
+L=[1,3,5,7,9]
+print(reduce(add,L))
+
+由此写一个str2int函数：
+from functools import reduce
+def str2int(s):
+    def add(x,y):
+        return x*10+y
+    def char2num(s):#注意到'13546'是可迭代类型
+        dicttemp={'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+        return dicttemp[s]
+    return reduce(add,map(char2num,s))
+print(str2int('125486'))
+>>> 125486
+
+还可以用lambda函数进一步简化成：
+
+from functools import reduce
+def char2num(s):
+    return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}[s]
+def str2int(s):
+    return reduce(lambda x, y: x * 10 + y, map(char2num, s))
+
+------------------
+*习题1：
+利用map()函数，把用户输入的不规范的英文名字，变为首字母大写，其他小写的规范名字。
+输入：['adam', 'LISA', 'barT']，输出：['Adam', 'Lisa', 'Bart']：
+我的笨方法：
+def normalize(name):
+    Ltemp=name.lower()
+    return Ltemp[0].upper()+Ltemp[1:]
+# 测试:
+L1 = ['adam', 'LISA', 'barT']
+L2 = list(map(normalize, L1))
+print(L2)
+
+------------------
+*习题2：
+Python提供的sum()函数可以接受一个list并求和，
+请编写一个prod()函数，可以接受一个list并利用reduce()求积
+from functools import reduce
+def prod(L):
+    def prodtemp(x,y):
+        return x*y
+    return reduce(prodtemp,L)
+print('3 * 5 * 7 * 9 =', prod([3, 5, 7, 9]))
+
+
+
+------------------
+*习题3：
+利用map和reduce编写一个str2float函数，
+把字符串'123.456'转换成浮点数 123.456：
+from functools import reduce
+def str2float(s):
+    def char2num(s):
+        #'13.31'→[1,3,-1,3,1]
+        dicttemp={'.':-1,'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+        return dicttemp[s]
+    def add(x,y):
+        #跳过'.'
+        if y>=0:
+            return 10*x+y
+        else:
+            return x
+    def findfloat(liststr):
+        #找小数点的位置
+        num=0
+        for m in liststr:
+            if m>=0:
+                num=num+1
+            else:
+                break
+        return num
+    tempnum=len(s)-findfloat(list(map(char2num,s)))#得到应该除以10的次数
+    L=reduce(add,map(char2num,s))
+#    print(L)
+#    for t in range(1,tempnum):
+#        L=L/10
+    return L/(10**(tempnum-1))
+print(str2float('123.456'))
+
+
+
+QAQ好冗长的说：
+比较好的解答：
+from functools import reduce
+
+def str2float(s):
+    XiaoShu = len(s) - s.find('.') - 1      # 计算小数位数
+    s = s.replace('.', '')      # 删除小数点
+    def char2num(s):
+        return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}[s]
+    num = reduce(lambda x, y: 10 * x + y, map(char2num, s))      # 转换成不带小数的整数
+    num = num / (10 ** XiaoShu)      # 移动小数点
+    return num
+
+print('str2float(\'123.456\') =', str2float('123.456'))
+
+————————————————————————
