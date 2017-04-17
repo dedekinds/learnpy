@@ -399,7 +399,7 @@ d = {'a': 1, 'b': 2, 'c': 3}
 for key in d():
     print(key)
 
-如果要对值循环的话：加上".values"
+如果要对值循环的话：加上".values"，都循环的话加上".items"
 d = {'a': 1, 'b': 2, 'c': 3}
 for key in d.values():
     print(key)
@@ -475,3 +475,64 @@ L2=[s.lower() for s in L1 if isinstance(s,str)]
 print(L2)
 
 ————————————————————————
+生成器generator
+>>> L = [x * x for x in range(10)]
+>>> L
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+>>> g = (x * x for x in range(10))
+>>> g
+<generator object <genexpr> at 0x1022ef630>
+
+节省空间的作法，每次调用next(g)可以出来下一个数
+也可以用循环
+g=(x*x for x in range(10))
+for n in g:
+    print(n)
+
+generator的函数，在每次调用next()的时候执行，
+遇到yield语句返回，再次执行时从上次返回的yield语句处继续执行
+def fib(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return 'done'
+for n in fib(6):
+     print(n)
+
+
+杨辉三角
+def triangles():#用generator
+    L = [1]
+    while True:
+        yield L
+        L = [1] + [L[i-1] + L[i] for i in range(len(L)) if i > 0] + [1]
+n=0
+for t in triangles():
+    print(t)
+    n=n+1
+    if n==10:
+        break
+
+自己的一般写法
+def triangle(max):
+    L=[1]
+    n=1
+    while n<max:
+        print(L)
+        L=[1]+[L[i-1]+L[i] for i in range(len(L)) if i>0]+[1]
+        n=n+1
+triangle(5)
+
+ 强行用generator
+ def triangle(max):
+    L=[1]
+    n=1
+    while n<max:
+        yield(L)
+        L=[1]+[L[i-1]+L[i] for i in range(len(L)) if i>0]+[1]
+        n=n+1
+for k in triangle(5):
+    print(k)
+
