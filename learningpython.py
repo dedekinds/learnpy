@@ -793,14 +793,21 @@ sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
 reverse （倒退的意思）
 >>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
 ['Zoo', 'Credit', 'bob', 'about']
+当然也可以这样：
+sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.upper)
 
-习题：
+
+习题1：
 假设我们用一组tuple表示学生名字和成绩：
 L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
 请用sorted()对上述列表分别按名字排序：
 
 L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
 def by_name(t):
-
-L2 = sorted(L, key=by_name)
+    return t[1]
+L2 = sorted(L, key=by_name,reverse=True)
 print(L2)
+
+
+习题2：
+再按成绩从高到低排序：
