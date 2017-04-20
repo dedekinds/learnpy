@@ -1,5 +1,6 @@
 #1
 print('hello %s %s %%',%('abx','sss'))#和C语言类似的结构化
+print('%s is running'%func.__name__)
 ————————————————————————
 #2
 list 语句
@@ -889,3 +890,47 @@ list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
 因为函数没有名字，不必担心函数名冲突:
 f=lambda x:x*x
+
+————————————————————————
+装饰器：
+>>> now.__name__
+'now'
+获取函数的名字
+
+在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）
+def use_logging(func):
+    print('%s is running'%func.__name__)
+    func()
+def bar():
+    print('i am bar')
+use_logging(bar)
+
+为了增强bar()，实际上是可以直接在bar里面加代码，
+但是如果此时bar1(),bar2()都有需求呢？就可以用上面的方法，但是
+有木有更好的方式？：装饰器
+https://www.zhihu.com/question/26930016
+
+def use_logging(func):
+    def wrapper(*args,**kw):
+        print('%s is running'%func.__name__)
+        return func(*args,**kw)
+    return wrapper
+def bar():
+    print('i am bar')
+
+bar=use_logging(bar)
+bar()
+
+实际上这里的*args,**kw是给bar()传的参数，实在是厉害啊！
+可以用下面的@符号（称为语法糖，避免再次赋值
+def use_logging(func):
+    def wrapper(*args,**kw):
+        print('%s is running'%func.__name__)
+        return func(*args,**kw)
+    return wrapper
+
+@use_logging
+def bar():
+    print('i am bar')
+
+bar()
