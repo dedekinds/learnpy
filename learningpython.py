@@ -974,7 +974,7 @@ def log(text):
         @functools.wraps(func)
         def wrapper(*args, **kw):
             print('%s %s():' % (text, func.__name__))
-            return func(*args, **kw)
+            return func(*args, **kw)#其实这里不一定要返回，直接写func(*args,**kw)即可
         return wrapper
     return decorator
 @log('execute')
@@ -988,14 +988,48 @@ def bar():
 import functools
 def log(func):
     @functools.wraps(func)
-
+    def wrapper(*args,**kw):
+        print('begin call')
+        func(*args,**kw)
+        print('end call')
+    return wrapper
 @log
 def bar():
     print('i am dedekinds')
+bar()
 
+习题2：写出一个@log 的decorator，使它既支持：
+@log
+def f():
+    pass
+又支持：
+@log('execute')
+def f():
+    pass
 
-
-
+import functools
+def log(text):
+    if isinstance(text,str):#如果是字符串的话
+        def decorator(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kw):
+                print('begin')
+                print('%s'%text)
+                func(*args,**kw)
+                print('end')
+            return wrapper
+        return decorator
+    else:
+            @functools.wraps(func)
+            def wrapper(*args, **kw):
+                print('begin')
+                func(*args,**kw)
+                print('end')
+            return wrapper
+@log('sdfdsf')
+def bar():
+    print('i am dedekinds')
+bar()
 
 
 
