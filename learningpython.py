@@ -1032,6 +1032,20 @@ def bar():
 bar()
 
 
+————————————————————————
+偏函数
+int('1234',5)
+    #5进制'1234'转换为10进制
+194
+>>> 
+为了不每次都输入一波int('str',base)
+可以定义一个新的函数，以二进制为例：
+def int2(x,base=8):
+    return int(x,base)
+如今有一种高级用法：
 
-
-
+import functools
+int2=functools.partial(int,base=8)
+print(int2('124525'))
+43349
+>>> 
