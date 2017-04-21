@@ -934,3 +934,70 @@ def bar():
     print('i am bar')
 
 bar()
+
+如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数
+def log(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+@log('execute')
+def now():
+    print('2015-3-25')
+
+>>> now()
+execute now():
+2015-3-25
+
+
+为了防止某些严重的错误，完整的decorator的写法:
+import functools
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+@log
+def bar():
+    print('i am bar')
+
+如果装饰器本身需要传进参数，那么：
+import functools
+
+def log(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+@log('execute')
+def bar():
+    print('2015-3-25')
+
+
+
+习题1：请编写一个decorator，
+能在函数调用的前后打印出'begin call'和'end call'的日志。
+import functools
+def log(func):
+    @functools.wraps(func)
+
+@log
+def bar():
+    print('i am dedekinds')
+
+
+
+
+
+
+
+
+
