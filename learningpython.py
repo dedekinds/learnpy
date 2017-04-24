@@ -1049,3 +1049,5 @@ int2=functools.partial(int,base=8)
 print(int2('124525'))
 43349
 >>> 
+
+回来学校之后就是不专心
