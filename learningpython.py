@@ -1059,10 +1059,9 @@ print(int2('124525'))
 ' a test module '
 #表示模块的文档注释，任何模块代码的第一个字符串都被视为模块的文档注释；
 
-__author__ = 'Michael Liao'
-
+__author__ = 'Michael Liao'#这个是表示作者
+#以下才是重点
 import sys
-
 def test():
     args = sys.argv
     if len(args)==1:
@@ -1073,4 +1072,37 @@ def test():
         print('Too many arguments!')
 
 if __name__=='__main__':
+    #这句话的意思就是，当模块被直接运行时，
+    #以下代码块将被运行，当模块是被导入时，代码块不被运行
     test()
+
+要调用的话只能（if __name__=='__main__':
+>>> import hello
+>>>hello.test()
+Hello, world!
+
+
+
+关于 import:
+如果把下面的代码保存为 hzz.py
+
+def _private_1(name):#在前面加了_命名的变量无法被引用
+    return 'Hello, %s' % name
+def _private_2(name):
+    return 'Hi, %s' % name
+def greeting(name):
+    if len(name) > 3:
+        return _private_1(name)
+    else:
+        return _private_2(name)
+
+
+用法1： 
+import hzz
+>>> hzz.greeting('hsdjfhsjfhs')
+'Hello, hsdjfhsjfhs'
+
+用法2：
+>>> from hzz import greeting
+>>> greeting('dfff')
+'Hello, dfff'
