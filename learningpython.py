@@ -1106,3 +1106,52 @@ import hzz
 >>> from hzz import greeting
 >>> greeting('dfff')
 'Hello, dfff'
+
+————————————————————————
+使用第三方库
+在cmd中直接输入下列命令安装：
+pip install Pillow
+
+可以在这里搜库：https://pypi.python.org/pypi
+
+from PIL import Image#安装了Pillow后
+im = Image.open('test.png')
+print(im.format, im.size, im.mode)
+im.thumbnail((200, 100))
+im.save('thumb.jpg', 'JPEG')
+#生成一个thumb.jpg的缩略图
+
+
+————————————————————————
+面向对象编程
+
+
+1.面相过程的编程：
+std1 = { 'name': 'Michael', 'score': 98 }
+std2 = { 'name': 'Bob', 'score': 81 }
+def print_score(std):
+    print('%s:%s'%(std['name'],std['score']))
+print_score(std2)
+
+2.面相对象的编程：
+class Student(object):
+    def __init__(self,name,score):
+        self.name=name
+        self.score=score
+        
+    def print_score(self):
+        print('%s %s'%(self.name,self.score))
+
+bart = Student('Bart Simpson', 59)
+lisa = Student('Lisa Simpson', 87)
+bart.print_score()
+lisa.print_score()
+
+
+
+
+
+
+
+
+
