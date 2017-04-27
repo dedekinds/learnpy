@@ -1147,6 +1147,9 @@ lisa = Student('Lisa Simpson', 87)
 bart.print_score()
 lisa.print_score()
 
+————————————————————————
+类（Class）和实例（Instance）
+
 
 
 
