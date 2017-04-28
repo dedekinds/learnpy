@@ -1238,3 +1238,78 @@ print(lisa.age)
 
 ————————————————————————
 访问限制
+
+理论上上面的变量是可以随意更改的
+>>> bart = Student('Bart Simpson', 98)
+>>> bart.score
+98
+>>> bart.score = 59
+>>> bart.score
+59
+
+为了防止这种现象，在Python中经常在变量前增加两个__就可以变成私有变量
+class Student(object):
+
+    def __init__(self, name, score):
+        self.__name = name
+        self.__score = score
+
+    def print_score(self):
+        print('%s: %s' % (self.__name, self.__score))
+
+
+bart = Student('Bart Simpson', 59)
+lisa = Student('Lisa Simpson', 87)
+
+bart.__score=100
+bart.print_score()
+print(bart.__score)
+
+Bart Simpson: 59
+100
+>>> 
+
+可以发现更改不了，如果没有__，那么在外部是可以修改的，如上上上所示
+
+
+如果想让类能返回值
+class Student(object):
+    ...
+
+    def get_name(self):
+        return self.__name
+
+如果想类改变值
+
+class Student(object):
+    ...
+    def set_score(self,score):
+        self.__score=score
+
+P.S.注意的是：
+1.__XXX__双下划线是”特殊变量“，
+特殊变量是可以直接访问的，不是private变量
+
+2.有些时候，你会看到以一个下划线开头的实例变量名，比如_name，
+这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，
+当你看到这样的变量时，意思就是，“虽然我可以被访问，但是，
+请把我视为私有变量，不要随意访问”。
+
+3.双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。
+不能直接访问 __name是因为Python解释器对外把__name变量改成
+了_Student__name，所以，仍然可以通过_Student__name来访问__name变量：
+>>> bart._Student__name
+'Bart Simpson'
+
+
+
+
+
+
+
+
+
+
+
+
+
