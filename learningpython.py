@@ -1164,7 +1164,77 @@ class Student(object):
 
 -__init__方法的第一个参数永远是self，表示创建的实例本身
 
+有点像结构体，不过此时可以传入参数比如
+bart = Student('Bart Simpson', 59)
+>>> bart.name
+'Bart Simpson'
 
 
+class Student(object):
+    def __init__(self,name,score):
+        self.name=name
+        self.score=score
+bart=Student('dedekinds',100)
+print(bart.name)
+print(bart.score)
+dedekinds
+100
+>>> 
+
+注意的是
+__init__()
+不是
+__int__()
+
+输入的参数也可以是类
+
+class Student(object):
+    def __init__(self,name,score):
+        self.name=name
+        self.score=score
+bart=Student('dedekinds',100)
+
+def pri(std):
+    print('%s %s'%(std.name,std.score))
+pri(bart)
+
+dedekinds 100
+>>> 
 
 
+不过我们也可以对上述函数进行封装，如下所示：
+class Student(object):
+    def __init__(self,name,score):
+        self.name=name
+        self.score=score
+        
+    def print_score(self):
+        print('%s %s'%(self.name,self.score))
+    def get_grade(self):
+            if self.score >= 90:
+                return 'A'
+            elif self.score >= 60:
+                return 'B'
+            else:
+                return 'C'
+                
+bart = Student('Bart Simpson', 59)
+lisa = Student('Lisa Simpson', 87)
+bart.print_score()
+lisa.print_score()
+print(bart.get_grade())
+
+Bart Simpson 59
+Lisa Simpson 87
+C
+>>> 
+
+实际上和结构体这种静态的变量不同，类是动态的，比如接着
+上面的程序而言，如果我要加入一个新的 age 
+lisa.age=7
+print(lisa.age)
+
+直接像上面那样就行了（不过怎么知道都加了啥？
+
+————————————————————————
+访问限制
