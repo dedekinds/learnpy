@@ -1150,9 +1150,19 @@ lisa.print_score()
 ————————————————————————
 类（Class）和实例（Instance）
 
+class Student(object):
+    pass
+- Student类名一般大写
+-(object)，表示该类是从哪个类继承下来的
 
 
+创建实例的时候，把一些我们认为必须绑定的属性强制填写进去:
+class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
 
+-__init__方法的第一个参数永远是self，表示创建的实例本身
 
 
 
