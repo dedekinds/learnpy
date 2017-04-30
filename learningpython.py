@@ -1304,13 +1304,98 @@ P.S.注意的是：
 
 ————————————————————————
 继承和多态
+先定义一个类：
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+
+当我们需要编写Dog和Cat类时，就可以直接从Animal类继承：
+class Dog(Animal):
+    pass
+class Cat(Animal):
+    pass
+
+dog=Dog()
+dog.run()
 
 
-明天周六要复习！
+完整代码如下：类的继承：
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+class Dog(Animal):
+    pass
+class Cat(Animal):
+    pass
+dog=Dog()
+dog.run()
+
+Animal is running...
+>>> 
 
 
 
+子类的run()覆盖了父类的run()，修改方便
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+class Cat(Animal):
+    def run(self):
+        print('Cat is running...')
+dog=Dog()
+dog.run()
 
+Dog is running...
+>>> 
+
+在代码运行的时候，
+总是会调用子类的run()。这样，我们就获得了继承的另一个好处：多态。
+
+关于多态， class 实际上定义的上一个类型
+接着上面的说法：
+test=Dog()
+isinstance(test,Dog)
+isinstance(test,Animal)
+
+True
+True
+>>> 
+说明子类从父类中继承了类型
+
+这在传输参数的时候很有用，比如定义一个函数
+def run_twice(animal):
+    animal.run()
+那么不管是上面的Dog也好，Cat也好，还是新定义的一个类
+class Tortoise(Animal):
+    def run(self):
+        print('Tortoise is running slowly...')
+
+由于都继承了Animal，所以无需对run_twice()进行修改
+
+
+那么有个问题来了，Python作为动态语言
+def run2(animal):
+    animal.run()
+
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+class Timer(object):
+    def run(self):
+        print('Start...')
+
+run2(Dog())
+run2(Timer())
+
+
+即使 Timer()类不是继承Animal但是，run2依旧可以运行，且仅仅需要
+Timer()类里面有run 就行了，这是因为一些都是由 object 继承过来的！（吧
 
 
 
