@@ -1,2 +1,2 @@
 # learnpy
-This is a note for learning python:D
+This is a note for learning Python:D
