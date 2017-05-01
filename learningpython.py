@@ -1397,5 +1397,49 @@ run2(Timer())
 即使 Timer()类不是继承Animal但是，run2依旧可以运行，且仅仅需要
 Timer()类里面有run 就行了，这是因为一些都是由 object 继承过来的！（吧
 
+————————————————————————
+获取对象信息
+
+当我们拿到一个对象的引用时，如何知道这个对象是什么类型、有哪些方法呢？
+
+type 从来给出XX是什么类型
+
+>>> type(1253)
+<class 'int'>
+>>> type(abs)
+<class 'builtin_function_or_method'>
+
+那么继承的东东呢？
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+
+a=Dog()
+print(type(a))
+
+<class '__main__.Dog'>
+>>> 
+似乎没意思
+
+————————————————————————
+>>> len('ABC')
+3
+>>> 'ABC'.__len__()
+3
 
 
+class MyDog(object):
+     def __len__(self):
+         return 100
+
+dog = MyDog()
+dogg='1256'
+print(len(dogg))
+print(len(dog))
+4
+100
+>>> 
+优先输出。。诡异
