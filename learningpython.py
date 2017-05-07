@@ -859,7 +859,7 @@ def count():
              return i*i
         fs.append(f)
     return fs
-    
+
 f1, f2, f3 = count()
 print(f1())
 print(f2())
@@ -919,11 +919,17 @@ def use_logging(func):
         print('%s is running'%func.__name__)
         return func(*args,**kw)
     return wrapper
-def bar():
-    print('i am bar')
+    
+def bar(sk):
+    print('i am bar %s'%sk)
 
 bar=use_logging(bar)
-bar()
+bar('dk')
+
+bar is running
+i am bar dk
+>>> 
+
 
 实际上这里的*args,**kw是给bar()传的参数，实在是厉害啊！
 可以用下面的@符号（称为语法糖，避免再次赋值
@@ -1076,7 +1082,7 @@ def test():
         print('Too many arguments!')
 
 if __name__=='__main__':
-    #这句话的意思就是，当模块被直接运行时，
+    #这句话的意思就是，当模块被直接运行时，代码运行
     #以下代码块将被运行，当模块是被导入时，代码块不被运行
     test()
 
