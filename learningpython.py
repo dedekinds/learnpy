@@ -1478,3 +1478,5 @@ AttributeError: 'Student' object has no attribute 'score'
 
 
 ————————————————————————
+使用@property
+
