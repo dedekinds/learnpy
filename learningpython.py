@@ -736,7 +736,7 @@ def _odd_iter():#生成无穷奇数列
         yield n
         
 def _not_divisible(n):
-    return lambda x: x % n > 0
+    return lambda x: x % n > 0#返回一个函数，厉害了大兄弟
 
 
 def primes():
@@ -821,7 +821,7 @@ L2 = sorted(L, key=by_name,reverse=True)
 print(L2)
 
 ————————————————————————
-返回函数
+返回一个函数
 L=list(range(1,10))
 def lazy_sum(*args):
     def sum():
@@ -830,6 +830,7 @@ def lazy_sum(*args):
             ax = ax + n
         return ax
     return sum
+
 f=lazy_sum(*L)
 print(f())
 
@@ -858,6 +859,7 @@ def count():
              return i*i
         fs.append(f)
     return fs
+    
 f1, f2, f3 = count()
 print(f1())
 print(f2())
