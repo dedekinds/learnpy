@@ -325,6 +325,7 @@ func(*args, **kw)的形式调用它，无论它的参数是如何定义的：
 >>> kw = {'d': 99, 'x': '#'}
 >>> f1(*args, **kw)
 a = 1 b = 2 c = 3 args = (4,) kw = {'d': 99, 'x': '#'}
+
 >>> args = (1, 2, 3)
 >>> kw = {'d': 88, 'x': '#'}
 >>> f2(*args, **kw)
@@ -397,7 +398,7 @@ Python的蜜汁循环迭代：
 对于 dict:
 默认是对key循环：
 d = {'a': 1, 'b': 2, 'c': 3}
-for key in d():
+for key in d:
     print(key)
 
 如果要对值循环的话：加上".values"，都循环的话加上".items"
@@ -455,9 +456,10 @@ dict的items()可以同时迭代key和value：
 d = {'x': 'A', 'y': 'B', 'z': 'C' }
 for k, v in d.items():
      print(k, '=', v)
-y = B
 x = A
+y = B
 z = C
+>>> 
 
 其他用法
 >>> d = {'x': 'A', 'y': 'B', 'z': 'C' }
@@ -503,7 +505,7 @@ for n in fib(6):
      print(n)
 
 
-杨辉三角
+#杨辉三角
 def triangles():#用generator
     L = [1]
     while True:
@@ -559,7 +561,7 @@ True
 
 1.凡是可作用于for循环的对象都是Iterable类型；
 2.凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
-3.集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+3.集合数据类型如 list、dict、str 等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
 4.Python的for循环本质上就是通过不断调用next()函数实现的
 
 ————————————————————————
@@ -572,7 +574,7 @@ print(add(-5,6,abs))
 
 from math import sqrt
 def same(x,*fs):
-    s=[f(x) for f in fs]
+    s=[f(x) for f in fs]+
     return s
 print(same(2,sqrt,abs))
 
