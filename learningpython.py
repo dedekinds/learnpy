@@ -1698,6 +1698,41 @@ with open('test.txt', 'r') as f:
     for line in f.readlines():
         print(line.strip()) # 把末尾的'\n'删掉
 
+————————————————————————
+二进制文件
+>>> f = open('/Users/michael/test.jpg', 'rb')
+>>> f.read()
+b'\xff\xd8\xff\xe1\x00\x18Exif\x00\x00...' # 十六进制表示的字节
+对于视频和图片可以用 'rb' 来读取
+
+如果是非UTF-8的文件的话
+>>> f = open('/Users/michael/gbk.txt', 'r', encoding='gbk')
+>>> f.read()
+'测试'
+
+有时候对于一些不规范的文件，可能会读取GG，最好的办法是忽略之
+f = open('/Users/michael/gbk.txt', 'r', encoding='gbk', errors='ignore')
+
+————————————————————————
+写入文件
+
+f = open('test.txt', 'w')
+f.write('Hello, world!')
+f.close()
+如果没有写close的话就不一定完成写入，保险的做法是
+with open('/Users/michael/test.txt', 'w') as f:
+    f.write('Hello, world!')
+
+用'a'是在下一行追加
+f = open('test.txt', 'a')
+
+
+————————————————————————
+StringIO和BytesIO
+
+
+
+
 
 
 
