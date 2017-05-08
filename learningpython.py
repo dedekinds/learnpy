@@ -1488,3 +1488,102 @@ Python内置的@property
 多重继承
 某种东西既可以按A分类，也可以按B分类，如果统一搞一个继承就指数上升复杂噜
 http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318680104044a55f4a9dbf8452caf71e8dc68b75a18000
+
+class Dog(Mammal, Runnable):
+    pass
+可以进行这样的多重继承（有意思
+这种设计通常称之为MixIn
+为了更好地看出继承关系，Runnable → RunnableMixIn
+class MyTCPServer(TCPServer, ForkingMixIn):
+    pass
+
+————————————————————————
+定制类（ __str__ ）
+class Student(object):
+    def __init__(self, name):
+        self.name = name
+    def __str__(self):
+        return 'Student object (name=%s)' % self.name
+    __repr__ = __str__
+
+-1.如果不使用 __str__ 那么 
+print(Student('Michael'))
+<__main__.Student object at 0x109afb190>
+
+-2.如果使用 __str__ 那么
+>>> print(Student('Michael'))
+Student object (name: Michael)
+
+-3.如果s=Student('Michael')，那么s直接敲还是会像1一样的，所以加上 __repr__ = __str__
+
+————————————————————————
+定制类（ __iter__ ）
+
+class Fib(object):
+    def __init__(self):
+        self.a, self.b = 0, 1 # 初始化两个计数器a，b
+
+    def __iter__(self):
+        return self # 实例本身就是迭代对象，故返回自己
+
+    def __next__(self):
+        self.a, self.b = self.b, self.a + self.b # 计算下一个值
+        if self.a > 100000: # 退出循环的条件
+            raise StopIteration()
+        return self.a # 返回下一个值
+for n in Fib():
+    print(n)
+
+1
+1
+2
+3
+...
+46368
+75025
+>>> 
+
+————————————————————————
+定制类（ __getitem__）
+由于上面的 __iter__ 不能像 list 一样使用，所可以考虑用 __getitem__ 类：
+class Fib(object):
+    def __getitem__(self, n):
+        a, b = 1, 1
+        for x in range(n):
+            a, b = b, a + b
+        return a
+>>> f = Fib()
+>>> f[0]
+1
+
+
+————————————————————————
+定制类（ __getattr__）
+不明觉厉
+http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014319098638265527beb24f7840aa97de564ccc7f20f6000
+————————————————————————
+
+定制类（ __call__ ）
+直接在实例本身上调用
+
+class Student(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self):
+        print('My name is %s.' % self.name)
+
+>>> s = Student('Michael')
+>>> s() # self参数不要传入
+My name is Michael.
+
+用 callable 判断对象是否有 __call__()的类实例
+>>> callable(Student())
+True
+>>> callable(max)
+True
+>>> callable([1, 2, 3])
+False
+
+
+
