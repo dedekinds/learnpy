@@ -1585,5 +1585,65 @@ True
 >>> callable([1, 2, 3])
 False
 
+————————————————————————
+枚举类
+类似于C语言中的#define t 15
+如果直接定义，如月份JAN=1，那么JAN依然是int 的变量，很危险
+http://www.cnblogs.com/ucos/p/5896861.html
+
+from enum import Enum, unique
+@unique#如果有相同就会报错
+class Color(Enum):
+    red = 1
+    yellow=2
+    
+red_member = Color.red
+print(red_member.name)
+print(red_member.value)#通过成员，来获取它的名称和值
+print(type(Color.red))
+for color in Color:#支持迭代
+    print(color)
+
+print(Color(1))#通过成员值来获取成员
+print(Color['red'])#通过成员的名称来获取成员
+
+red
+1
+<enum 'Color'>#不是int类
+Color.red
+Color.yellow#如果有别名那么就只会循环第一个出来
+
+Color.red
+Color.red
+>>> 
 
 
+特殊情况，
+from enum import Enum
+#用@unique就可以对red_alias报错
+class Color(Enum):
+    red = 1
+    orange = 2
+    yellow = 3
+    green = 4
+    blue = 5
+    indigo = 6
+    purple = 7
+    red_alias = 1#默认情况下，不同的成员值允许相同。
+    #但是两个相同值的成员，第二个成员的名称被视作第一个成员的别名
+
+for color in Color.__members__.items():#要把别名也弄出来的话
+    print(color)
+
+('red', <Color.red: 1>)
+('orange', <Color.orange: 2>)
+('yellow', <Color.yellow: 3>)
+('green', <Color.green: 4>)
+('blue', <Color.blue: 5>)
+('indigo', <Color.indigo: 6>)
+('purple', <Color.purple: 7>)
+('red_alias', <Color.red: 1>)
+>>> 
+
+————————————————————————
+使用元类
