@@ -1647,3 +1647,57 @@ for color in Color.__members__.items():#要把别名也弄出来的话
 
 ————————————————————————
 使用元类
+我选择跳过。。似乎很少用到
+
+————————————————————————
+文件读写**
+和C预言类似：
+f = open('test.txt', 'r')
+print(f.read())#输出txt文件中的东西
+f.close()
+
+有些时候f读入失败等情况会使得 close()失败
+可以用with语句自动运行close
+with open('test.txt', 'r') as f:
+    print(f.read())
+
+如果文件很大的话，read(size)比较保险，比如
+print(f.read(1)) 只读一个字节（那怎么读下一个？循环
+
+注意
+with open('test.txt', 'r') as f:
+    print(f.read(2).strip())
+    print(f.read(3))
+1
+2
+3
+>>> 
+
+with open('test.txt', 'r') as f:
+    print(f.read(1).strip())
+    print(f.read(2))
+1
+
+2
+>>> 
+
+with open('test.txt', 'r') as f:
+    print(f.read(1))
+    print(f.read(3))
+1
+
+2
+
+>>> 
+一方面，似乎read()和之前的next()效果类似，其次上面主要是'\n'作怪
+
+
+
+一次读一行用readlines()
+with open('test.txt', 'r') as f:
+    for line in f.readlines():
+        print(line.strip()) # 把末尾的'\n'删掉
+
+
+
+
