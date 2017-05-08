@@ -1480,3 +1480,11 @@ AttributeError: 'Student' object has no attribute 'score'
 ————————————————————————
 使用@property
 
+Python内置的@property 
+装饰器就是负责把一个方法变成属性调用的
+（这部分我跳过了，没什么意义感觉）
+
+————————————————————————
+多重继承
+某种东西既可以按A分类，也可以按B分类，如果统一搞一个继承就指数上升复杂噜
+http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318680104044a55f4a9dbf8452caf71e8dc68b75a18000
