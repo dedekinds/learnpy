@@ -1775,6 +1775,47 @@ b'\xe4\xb8\xad\xe6\x96\x87'
 ————————————————————————
 操作文件和目录
 
+import os
+pathtemp=os.path.abspath('.')#查看当前目录
+#print(pathtemp)
+pathtemp2=os.path.join(pathtemp, 'testdir')
+# 在某个目录下创建一个新目录，首先把新目录的完整路径表示出来:
+os.mkdir(pathtemp2)
+# 然后创建一个目录:
+os.rmdir(pathtemp2)
+#删掉目录
 
 
+拆分路径
+>>>os.path.split('/Users/michael/testdir/file.txt')
+('/Users/michael/testdir', 'file.txt')
 
+>>> os.path.splitext('/path/to/file.txt')
+('/path/to/file', '.txt')
+
+
+这些合并、拆分路径的函数并不要求目录和文件要真实存在，
+它们只对字符串进行操作。
+
+————————————————————————
+文件操作****
+# 对文件重命名:
+>>> os.rename('test.txt', 'abcc.txt ')#但是为什么改为'test.py'缺不行嗯？
+os.rename('test.jpg', 'test.png')这个可以
+
+# 删掉文件:
+>>> os.remove('test.py')
+
+import os
+L=[x for x in os.listdir('.') if os.path.isdir(x)]
+print(L)
+查看当前目录的文件夹名字
+
+import os
+L=[x for x in os.listdir('.') if os.path.isfile(x) and os.path.splitext(x)[1]=='.py']
+print(L)
+获取当前所有py文件，似乎MATLAB更加方便
+
+
+————————————————————————
+序列化
