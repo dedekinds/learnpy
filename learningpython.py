@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 #1
 print('hello %s %s %%',%('abx','sss'))#和C语言类似的结构化
 print('%s is running'%func.__name__)
@@ -1847,4 +1850,52 @@ s = r'ABC\-001' # Python的字符串
 # 对应的正则表达式字符串不变：
 # 'ABC\-001'
 ————————————————————————
-切分字符串
+切分字符串（？？？
+
+>>> 'a b   c'.split(' ')
+['a', 'b', '', '', 'c']
+
+>>> re.split(r'\s+', 'a b     c')
+['a', 'b', 'c']
+
+>>> re.split(r'[\s\,\;]+', 'a,b;; c  d')
+['a', 'b', 'c', 'd']
+
+import re
+m=re.match(r'^(\d{3})-(\d{3,8})$','010-21198')#加（）表示要提取的部分
+print(m.group(0))#原字符
+print(m.group(1))
+print(m.group(2))
+
+010-21198
+010
+21198
+>>> 
+
+————————————————————————
+贪婪匹配
+#？？？？
+>>> re.match(r'^(\d+)(0*)$', '102300').groups()
+('102300', '')
+#？？？？
+>>> re.match(r'^(\d+?)(0*)$', '102300').groups()
+('1023', '00')
+
+
+作业：
+1.请尝试写一个验证Email地址的正则表达式。版本一应该可以验证出类似的Email：
+someone@gmail.com
+bill.gates@microsoft.com
+
+2.版本二可以验证并提取出带名字的Email地址：
+<Tom Paris> tom@voyager.org
+
+
+————————————————————————
+常用内建模块***
+1.datetime 处理日期和时间的标准库库
+
+from datetime import datetime
+
+
+
