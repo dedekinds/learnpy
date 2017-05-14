@@ -1896,6 +1896,52 @@ bill.gates@microsoft.com
 1.datetime 处理日期和时间的标准库库
 
 from datetime import datetime
+now=datetime.now()
+print(now)
+2017-05-14 16:52:43.882699
+>>> 
+
+或者
+
+import datetime
+now=datetime.datetime.now()
+print(now)
+2017-05-14 16:56:55.931115
+>>> 
 
 
+创建一个时间
+>>> from datetime import datetime
+>>> dt = datetime(2015, 4, 19, 12, 20) # 用指定日期时间创建datetime
+>>> print(dt)
+2015-04-19 12:20:00
 
+-datetime转换为timestamp
+timestamp = 0 = 1970-1-1 08:00:00 UTC+8:00 北京时间的时间元年表达(实际上和时区无关)
+
+from datetime import datetime
+dt=datetime(2017,5,20,12,30)
+print(dt.timestamp())
+
+1495254600.0
+>>> 
+
+
+-timestamp转换为datetime
+>>> from datetime import datetime
+>>> t = 1429417200.0
+>>> print(datetime.fromtimestamp(t))
+2015-04-19 12:20:00
+
+>>> print(datetime.utcfromtimestamp(t)) # UTC时间，相差8小时
+2015-04-19 04:20:00
+
+
+str转换为datetime
+>>> from datetime import datetime
+>>> cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
+>>> print(cday)
+2015-06-01 18:19:59
+
+还有各种关于时间的操作
+http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431937554888869fb52b812243dda6103214cd61d0c2000
