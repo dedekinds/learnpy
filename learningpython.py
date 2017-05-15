@@ -1945,3 +1945,64 @@ str转换为datetime
 
 还有各种关于时间的操作
 http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431937554888869fb52b812243dda6103214cd61d0c2000
+
+————————————————————————
+collections
+
+from collections import namedtuple#定义一个坐标
+Point=namedtuple('Point',['x','y'])
+p=Point(1,2)
+print(p.x,p.y)
+1 2
+>>> 
+
+如果要用坐标和半径表示一个圆
+# namedtuple('名称', [属性list]):
+Circle = namedtuple('Circle', ['x', 'y', 'r'])
+
+————————————————————————
+deque
+list 的append()和pop()功能可以更好地处理，由于是线性存储
+插入和删除效率不高?，可以用下面的办法
+
+from collections import deque
+q=deque(['a','b','c'])
+q.append('x')
+q.appendleft('y')#deque是双向列表，适合用于队列和栈
+
+还有pop(),popleft()
+
+————————————————————————
+Counter#实际上是dict的一个子类
+下面这个例子就是统计又给单词中出现字母的频率
+
+from collections import Counter
+c=Counter()
+for ch in 'aabbbccccc':
+    c[ch]=c[ch]+1
+print(c)
+
+Counter({'c': 5, 'b': 3, 'a': 2})
+>>> 
+
+————————————————————————
+hashlib
+
+import hashlib
+md5=hashlib.md5()
+md5.update('how to use md5 in'.encode('utf-8'))#太长的话可以分段
+md5.update('python hashlib??'.encode('utf-8'))
+print(md5.hexdigest())
+
+b5e2e2cc16973f6a35420e8b29ffe266
+>>> 
+
+-即使改动一个字母变化都会很大（为什么？
+可以换成sha1=hashlib.sha1()
+
+-运营商存储密码明文是不科学的，应该存储hashlib后的码，即使泄漏也不可逆向
+
+-黑客有可能事先对简单的密码处理了md5，所以垃圾密码很容易被盗号
+但是运营商应该可以对用户的简单密码稍微添加一点字符，再md5即可
+
+
