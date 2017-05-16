@@ -64,7 +64,7 @@ x=
  [0 1 2 3 4]
  [0 1 2 3 4]
  [0 1 2 3 4]]
- 
+
 ——————random————————
  # uniform random numbers in [0,1]随机数
 random.rand(5,1)#均匀分布 random.randn(5,5)就正态分布
@@ -92,3 +92,35 @@ diag([1,2,3], k=1)
           [0, 0, 2, 0],
           [0, 0, 0, 3],
           [0, 0, 0, 0]])
+
+——————zeros————————
+zeros((3,3))
+=> array([[ 0.,  0.,  0.],
+          [ 0.,  0.,  0.],
+          [ 0.,  0.,  0.]])
+
+——————ones————————
+ones((2,2))
+array([[ 1.,  1.],
+       [ 1.,  1.]])
+
+
+2.2 文件 I/O 创建数组
+——————CSV————————
+用genfromtxt获取
+data = genfromtxt('test.dat')#读取dat文件
+data.shape
+
+
+用savetxt保存
+M = random.rand(3,3)
+savetxt("random-matrix.csv", M, fmt='%.5f')
+
+
+
+
+
+
+
+
+
