@@ -150,6 +150,27 @@ A[row_indices, col_indices]
 
 => array([11, 22, 34])
 
+A[:, col_indices]
+=> array([[ 1,  2,  4],
+       [11, 12, 14],
+       [21, 22, 24],
+       [31, 32, 34],
+       [41, 42, 44]])
+
+————————索引掩码——————————
+B = array([n for n in range(5)])
+B
+=> array([0, 1, 2, 3, 4])
+
+row_mask = array([True, False, True, False, False])
+B[row_mask]
+=> array([0, 2])
+
+
+# same thing
+row_mask = array([1,0,1,0,0], dtype=bool)
+B[row_mask]
+=> array([0, 2])
 
 
     2.5 操作 numpy 数组的常用函数
@@ -186,5 +207,57 @@ A[row_indices, col_indices]
     三、 实验总结
     License
 
+———————————————
+A=array([[ 0,  1,  2,  3,  4],
+       [10, 11, 12, 13, 14],
+       [20, 21, 22, 23, 24],
+       [30, 31, 32, 33, 34],
+       [40, 41, 42, 43, 44]])
+类似于MATLAB中的find
+---A[A>20]
+>>>array([21, 22, 23, ..., 42, 43, 44])
 
+---where(A>20)
+(array([2, 2, 2, ..., 4, 4, 4], dtype=int64),
+ array([1, 2, 3, ..., 2, 3, 4], dtype=int64))
 
+---where(A>20)[0]#[1]的话就是列索引
+array([2, 2, 2, ..., 4, 4, 4], dtype=int64)
+
+    np.where()[0] 表示行的索引，
+    np.where()[1] 则表示列的索引
+
+---L=where(A>20)
+ >>>A[L]=array([21, 22, 23, ..., 42, 43, 44])
+
+——————diag————————
+diag(A)
+>>>array([ 0, 11, 22, 33, 44])
+
+diag(A,-1)
+>>>array([10, 21, 32, 43])
+
+————take函数——————
+和高级索引类似，不过也可以用于 list
+v2=array([-3, -2, -1,  0,  1,  2])
+
+row_indices = [1, 3, 5]
+v2[row_indices] # fancy indexing
+=> array([-2,  0,  2])
+
+v2.take(row_indices)
+=> array([-2,  0,  2])
+
+用于 list
+take([-3, -2, -1,  0,  1,  2], row_indices)
+=> array([-2,  0,  2])
+
+————————线性代数——————————
+v1=arange(0,5)
+A=array([[   0,    1,    4,    9,   16],
+       [ 100,  121,  144,  169,  196],
+       [ 400,  441,  484,  529,  576],
+       [ 900,  961, 1024, 1089, 1156],
+       [1600, 1681, 1764, 1849, 1936]])
+
+A*A等价于咩咧里面的点乘
