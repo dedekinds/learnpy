@@ -280,7 +280,7 @@ a.T表示a的转置
 -angle 与 abs 可以分别得到幅角和绝对值
 
 ————————求逆和行列式——————————
-from scipy.linalg import *
+from scipy.linalg import *#线性代数
 
 -矩阵求逆：
 inv(C) # equivalent to C.I 
@@ -309,14 +309,14 @@ m.max(axis=1)
 
 ——————reshape————————
 用reshape非常快
-A=array([[ n+m*10 for n in range(5)] for m in range(5)])
+A=array([ [ n+m*10 for n in range(5)] for m in range(5)])
 n, m = A.shape
 B = A.reshape((1,n*m))
 B[0,0:5] = 5
 >>>B=array([[ 5,  5,  5,  5,  5, 10, 11, 12, 13, 14, 20, 21, 22, 23, 24, 30, 31,
            32, 33, 34, 40, 41, 42, 43, 44]])
 
-***但注意到此时A也是发生改变的
+***但注意到此时A也是发生改变的#浅拷贝B=A，深拷贝的话用copy
 >>>A=array([[ 5,  5,  5,  5,  5],
           [10, 11, 12, 13, 14],
           [20, 21, 22, 23, 24],
@@ -330,14 +330,62 @@ B
 => array([ 5,  5,  5,  5,  5, 10, 11, 12, 13, 14, 20, 21, 22, 23, 24, 30, 31,
           32, 33, 34, 40, 41, 42, 43, 44])
 
+——————————————————
 
+from numpy import *
+M=array([[1,2],[3,4]])
+for row in M:
+    print("row",row)
+    for x in row:
+        print(x)
+#这样相当于是遍历了里面所有的元素
+row [1 2]
+1
+2
+row [3 4]
+3
+4
+>>> 
 
+当我们需要遍历数组并且更改元素内容的时候，
+可以使用 enumerate 函数同时获取元素与对应的序号：
 
+for row_idx, row in enumerate(M):
+    print("row_idx", row_idx, "row", row)
 
+    for col_idx, element in enumerate(row):
+        print("col_idx", col_idx, "element", element)
 
+        # 平方每一个元素
+        M[row_idx, col_idx] = element ** 2
 
+>>>
+row_idx 0 row [1 2]
+col_idx 0 element 1
+col_idx 1 element 2
+row_idx 1 row [3 4]
+col_idx 0 element 3
+col_idx 1 element 4
 
+M
+>>>
+array([[ 1,  4],
+       [ 9, 16]])
 
+————————————————函数矢量化————————————————
+from numpy import *
+def Theta(x):
+    if x>=0:
+        return 1
+    else:
+        return 0
+A=array([-3,-4,5,-8])
+
+Theta_vec=vectorize(Theta)#还有这种操作，可以的
+print(Theta_vec(A))#对“函数”进行矢量化改造
+
+[0 0 1 0]
+>>> 
 
 
 
