@@ -551,11 +551,53 @@ Optimization terminated successfully.
          Gradient evaluations: 8
 [-2.67298151]
 
+#也可以直接用这些函数
+optimize.brent(f)
+=> 0.46961743402759754
+optimize.fminbound(f, -4, 2)
+=> -2.6729822917513886
 
 
+——————————函数求根——————————
+omega_c = 3.0
+def f(omega):
+    # a transcendental equation: resonance frequencies of a low-Q SQUID terminated microwave resonator
+    return tan(2*pi*omega) - omega_c/omega
+
+optimize.fsolve(f, 0.1)
+
+=> array([ 0.23743014])
+#一样要小心迭代法只能求一个根，而案例中tan很多根
 
 
+——————————————插值————————————
+略
+from scipy.interpolate import *
+
+————————————统计类————————
+from scipy import stats
+统计检验
+统计分布
+等等
+
+——————————matplotlib—————————————
 
 
+#%matplotlib qt
+from numpy import *
+x = linspace(0, 5, 10)
+y = x ** 2
+
+figure()
+plot(x, y, 'r')
+xlabel('x')
+ylabel('y')
+title('title')
+show()
 
 
+————子图——————
+subplot(1,2,1)
+plot(x, y, 'r--')
+subplot(1,2,2)
+plot(y, x, 'g*-');
