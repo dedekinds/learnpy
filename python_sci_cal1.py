@@ -386,12 +386,34 @@ print(Theta_vec(A))#对“函数”进行矢量化改造
 
 [0 0 1 0]
 >>> 
+————————————SciPy——————————————
+SciPy 库建立在 Numpy 库之上，提供了大量科学算法，主要包括这些主题：
+
+    特殊函数 (scipy.special)
+    积分 (scipy.integrate)
+    最优化 (scipy.optimize)
+    插值 (scipy.interpolate)
+    傅立叶变换 (scipy.fftpack)
+    信号处理 (scipy.signal)
+    线性代数 (scipy.linalg)
+    稀疏特征值 (scipy.sparse)
+    统计 (scipy.stats)
+    多维图像处理 (scipy.ndimage)
+    文件 IO (scipy.io)
 
 
+————————数值积分————————————
+from scipy.intergrate import quad,dblquad,tplquad#单积分，双重积分，三重积分
 
+数值积分【话说这个误差他是怎么弄出来的？应该是估算的一个上界
 
-
-
+from scipy.integrate import quad
+def f(x):
+    return x
+x_lower = 0 # the lower limit of x
+x_upper = 1 # the upper limit of x
+val, abserr = quad(f, x_lower, x_upper)
+print ("integral value =", val, ", absolute error =", abserr )
 
 
 
