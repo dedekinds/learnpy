@@ -455,14 +455,101 @@ print(val)
 
 ———————————————————————
 
+    2.5 线性代数
+        2.5.1 线性方程组
+        2.5.2 特征值 与 特征向量
+        2.5.3 矩阵运算
+        2.5.4 稀疏矩阵
+    2.6 最优化
+        2.6.1 找到一个最小值
+        2.6.2 找到方程的解
+    2.7 插值
+    2.8 统计学
+        2.8.1 统计检验
+
+———————————————————————
+        2.5.1 解线性方程：
+from scipy.linalg import *
+A = array([[1,2,3], [4,5,6], [7,8,9]])
+b = array([1,2,3])
+x = solve(A, b)#x = solve(A, b.T)，b是否转置没有影响
+#直接用数组类型就可以解线性方程，不必matrix
+
+———————————————————————
+        2.5.2 特征值 与 特征向量
+evals, evecs = eig(A)
+evals
+
+=> array([ 1.06633891+0.j        , -0.12420467+0.10106325j,
+          -0.12420467-0.10106325j])
+
+evecs
+=> array([[ 0.89677688+0.j        , -0.30219843-0.30724366j, -0.30219843+0.30724366j],
+          [ 0.35446145+0.j        ,  0.79483507+0.j        ,  0.79483507+0.j        ],
+          [ 0.26485526+0.j        , -0.20767208+0.37334563j, -0.20767208-0.37334563j]])
+#第k个特征值的特征向量是第k列
+
+————————————稀疏矩阵———————————
+from scipy.sparse import *
+
+# dense matrix
+M = array([[1,0,0,0], [0,3,0,0], [0,1,1,0], [1,0,0,1]]); M
+
+=> array([[1, 0, 0, 0],
+          [0, 3, 0, 0],
+          [0, 1, 1, 0],
+          [1, 0, 0, 1]])
+
+# convert from dense to sparse
+A = csr_matrix(M); A
+=> <4x4 sparse matrix of type '<type 'numpy.int64'>'
+       with 6 stored elements in Compressed Sparse Row format>
+
+# convert from sparse to dense
+A.todense()
+=> matrix([[1, 0, 0, 0],
+           [0, 3, 0, 0],
+           [0, 1, 1, 0],
+           [1, 0, 0, 1]])
+
+————填充稀疏矩阵
+A = lil_matrix((4,4)) # empty 4x4 sparse matrix
+A[0,0] = 1
+A[1,1] = 3
+A[2,2] = A[2,1] = 1
+A[3,3] = A[3,0] = 1
+A
+
+=> <4x4 sparse matrix of type '<type 'numpy.float64'>'
+       with 6 stored elements in LInked List format>
+
+
+A.todense()
+
+matrix([[ 1.,  0.,  0.,  0.],
+        [ 0.,  3.,  0.,  0.],
+        [ 0.,  1.,  1.,  0.],
+        [ 1.,  0.,  0.,  1.]])
 
 
 
+————————最优化——————————
 
+from scipy import optimize
+def f(x):
+    return 4*x**3 + (x-2)**2 + x**4
+#可以使用 fmin_bfgs 找到函数的最小值：
+x_min=optimize.fmin_bfgs(f,-2)
+#诡异的迭代方法
+print(x_min)
 
-
-
-
+>>>
+Optimization terminated successfully.
+         Current function value: -3.506641
+         Iterations: 5
+         Function evaluations: 24
+         Gradient evaluations: 8
+[-2.67298151]
 
 
 
