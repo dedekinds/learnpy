@@ -415,6 +415,59 @@ x_upper = 1 # the upper limit of x
 val, abserr = quad(f, x_lower, x_upper)
 print ("integral value =", val, ", absolute error =", abserr )
 
+如果需要输入额外的参数可以用 args 关键字
+
+def integrand(x, n):
+    """
+    Bessel function of first kind and order n. 
+    """
+    return jn(n, x)
+x_lower = 0  # the lower limit of x
+x_upper = 10 # the upper limit of x
+
+val, abserr = quad(integrand, x_lower, x_upper, args=(3,))
+print val, abserr 
+
+>>>0.736675137081 9.38925687719e-13
+
+————用lambda表达式
+from scipy.integrate import quad
+from numpy import *
+print(quad(lambda x:exp(-x**2),-Inf,Inf))
+
+(1.7724538509055159, 1.4202636781830878e-08)
+
+——————————————————
+二重积分案例
+from scipy.integrate import quad
+from numpy import *
+def integrand(x, y):
+    return exp(-x**2-y**2)
+x_lower = 0  
+x_upper = 10
+y_lower = 0
+y_upper = 10
+val, abserr = dblquad(integrand, x_lower, x_upper, lambda x : y_lower, lambda x: y_upper)
+#注意到这里的lambda表达式
+print(val)
+#注意到我们为y积分的边界传参的方式，这样写是因为y可能是关于x的函数。？
+
+
+———————————————————————
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
