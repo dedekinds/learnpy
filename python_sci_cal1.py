@@ -692,3 +692,75 @@ ax.set_title('title');
 fig
 
 ————————————使用LaTeX，字体大小，字体类型——————————
+...latex设置有毛病，一直在弹cmd，不懂
+
+import matplotlib.pyplot as plt
+from numpy import *
+from matplotlib import rcParams
+rcParams.update({'font.size': 18, 'text.usetex': True})#在本机中实现不了
+x = linspace(0, 5, 10)
+y = x ** 2
+
+
+fig, ax = plt.subplots()
+
+ax.plot(x, x**2, label=r"$y = \alpha^2$")
+ax.plot(x, x**3, label=r"$y = \alpha^3$")
+ax.legend(loc=2) # upper left corner
+ax.set_xlabel(r'$\alpha$')
+ax.set_ylabel(r'$y$')
+ax.set_title('title');
+
+fig
+
+——————————线型——————————————
+线与描点风格
+
+linewidth 或是 lw 参数改变线宽。
+
+linestyle 或是 ls 参数改变线的风格。
+具体重新查看即可
+
+
+
+——————————————坐标轴的调节————————————
+import matplotlib.pyplot as plt
+from numpy import *
+
+fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+
+axes[0].plot(x, x**2, x, x**3)
+axes[0].set_title("default axes ranges")
+
+axes[1].plot(x, x**2, x, x**3)
+axes[1].axis('tight')#axis('tight') 自动将坐标轴调整的紧凑
+axes[1].set_title("tight axes")
+
+axes[2].plot(x, x**2, x, x**3)
+axes[2].set_ylim([0, 60])#坐标轴的区域
+axes[2].set_xlim([2, 5])
+axes[2].set_title("custom axes range");
+
+fig
+
+——————————————————————————————
+大招：按照自己的想法设置横纵坐标
+import matplotlib.pyplot as plt
+from numpy import *
+
+fig, ax = plt.subplots(figsize=(10, 4))
+
+ax.plot(x, x**2, x, x**3, lw=2)
+
+ax.set_xticks([1, 2, 3, 4, 5])
+ax.set_xticklabels([r'$\alpha$', r'$\beta$', r'$\gamma$', r'$\delta$', r'$\epsilon$'], fontsize=18)
+
+yticks = [0, 50, 100, 150]
+ax.set_yticks(yticks)
+ax.set_yticklabels(["$%.1f$" % y for y in yticks], fontsize=18); # use LaTeX formatted labels
+
+fig
+#横坐标的是希腊字母
+#纵坐标是一些数字
+
+
