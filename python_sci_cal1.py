@@ -669,3 +669,26 @@ fig, axes = plt.subplots(figsize=(8,4))
 fig.savefig("filename.png")
 %PNG，JPG，EPS，SVG，PGF 和 PDF
 
+——————图例————————
+import matplotlib.pyplot as plt
+x = linspace(0, 5, 10)
+y = x ** 2
+
+
+fig, ax = plt.subplots()
+
+ax.plot(x, x**2, label="y = x**2")
+ax.plot(x, x**3, label="y = x**3")
+ax.legend(loc=0) # 图例的位置
+#ax.legend(loc=0) # let matplotlib decide the optimal location
+#ax.legend(loc=1) # upper right corner
+#ax.legend(loc=2) # upper left corner
+#ax.legend(loc=3) # lower left corner
+#ax.legend(loc=4) # lower right corner
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('title');
+
+fig
+
+————————————使用LaTeX，字体大小，字体类型——————————
