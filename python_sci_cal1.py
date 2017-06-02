@@ -581,9 +581,7 @@ from scipy import stats
 等等
 
 ——————————matplotlib—————————————
-
-
-#%matplotlib qt
+from pylab import *
 from numpy import *
 x = linspace(0, 5, 10)
 y = x ** 2
@@ -594,10 +592,80 @@ xlabel('x')
 ylabel('y')
 title('title')
 show()
-
+#改变边框的大小？
 
 ————子图——————
 subplot(1,2,1)
 plot(x, y, 'r--')
 subplot(1,2,2)
 plot(y, x, 'g*-');
+
+
+——————————用fig（类似于句柄
+import matplotlib.pyplot as plt
+x = linspace(0, 5, 10)
+y = x ** 2
+fig = plt.figure()
+
+axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+
+axes.plot(x, y, 'r')
+axes.set_xlabel('x')
+axes.set_ylabel('y')
+axes.set_title('title')
+
+fig
+
+
+#在图中插入小子图
+import matplotlib.pyplot as plt
+x = linspace(0, 5, 10)
+y = x ** 2
+fig=plt.figure()
+axes1 = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # main axes
+axes2 = fig.add_axes([0.2, 0.5, 0.4, 0.3]) # inset axes
+
+# main figure
+axes1.plot(x, y, 'r')
+axes1.set_xlabel('x')
+axes1.set_ylabel('y')
+axes1.set_title('title')
+
+# insert
+axes2.plot(y, x, 'g')
+axes2.set_xlabel('y')
+axes2.set_ylabel('x')
+axes2.set_title('insert title');
+
+fig
+
+——————————fig自适应——————————
+
+import matplotlib.pyplot as plt
+x = linspace(0, 5, 10)
+y = x ** 2
+
+
+fig, axes = plt.subplots(nrows=1, ncols=2)
+#subplots 是布局管理器，自适应fig axes
+#h = subplot(m,n,p)/subplot(mnp) 
+#将figure划分为m×n块，在第p块创建坐标系，并返回它的句柄
+for ax in axes:
+    ax.plot(x, y, 'r')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('title')
+
+fig.tight_layout()
+#标签自适应
+fig
+
+————————————图表的尺寸问题————————
+fig = plt.figure(figsize=(8,4), dpi=100)
+#创建一个800*400像素，每英寸100像素
+fig, axes = plt.subplots(figsize=(8,4))
+
+————————————保存图片————————
+fig.savefig("filename.png")
+%PNG，JPG，EPS，SVG，PGF 和 PDF
+
