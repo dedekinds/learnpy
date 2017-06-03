@@ -813,10 +813,128 @@ x = Symbol('x')
 from sympy import *
 from pylab import *
 import numpy
-
+x = Symbol('x')
 x_vec = numpy.arange(0, 10, 0.1)
 y_vec = numpy.array([N(((x + pi)**2).subs(x, xx)) for xx in x_vec])
 fig, ax = subplots()
 ax.plot(x_vec, y_vec);
 
 #pi.evalf(n=50) 取pi的50位精确度
+#N(y, 5) # same as evalf，保留5位
+#y.subs(x,1.5) 表示在y中用1.5来代替x
+
+
+
+**特别的，lambdify的方法比上面的数值方法要快得多
+from sympy import *
+from pylab import *
+import numpy
+x = Symbol('x')
+x_vec = numpy.arange(0, 10, 0.1)
+f = lambdify([x], (x + pi)**2, 'numpy')  # 第一个参数是一个列表
+                                         # 第二个参数是我们对列表中每个元素的操作
+                                         # 第三个参数是我们的
+y_vec = f(x_vec)  # now we can directly pass a numpy array and f(x) is efficiently evaluated
+
+
+时间对比：
+
+1.
+from sympy import *#subs
+from pylab import *
+import numpy
+from timeit import timeit  
+
+x = Symbol('x')
+#f = lambdify([x], (x + pi)**2, 'numpy')
+#y_vec = f(x_vec) 
+def func():
+   x_vec = numpy.arange(0, 10, 0.1)
+   y_vec=numpy.array([N(((x + pi)**2).subs(x, xx)) for xx in x_vec])
+   print(y_vec)
+t=timeit('func()', 'from __main__ import func', number=1)
+
+>>>0.06101024690926238
+
+2.
+from sympy import *#subs
+from pylab import *
+import numpy
+from timeit import timeit  
+
+x = Symbol('x')
+#f = lambdify([x], (x + pi)**2, 'numpy')
+#y_vec = f(x_vec) 
+def func():
+   x_vec = numpy.arange(0, 10, 0.1)
+   f = lambdify([x], (x + pi)**2, 'numpy')
+   y_vec = f(x_vec)
+   print(y_vec)
+t=timeit('func()', 'from __main__ import func', number=1)
+
+>>>0.00790317583746969#快得多
+
+
+程序运行时间的代码
+#http://www.cnblogs.com/PrettyTom/p/6657984.html
+#导入timeit.timeit
+from timeit import timeit  
+
+#看执行1000000次x=1的时间：
+timeit('x=1')
+
+#看x=1的执行时间，执行1次(number可以省略，默认值为1000000)：
+timeit('x=1', number=1)
+
+#看一个列表生成器的执行时间,执行1次：
+timeit('[i for i in range(10000)]', number=1)
+
+#看一个列表生成器的执行时间,执行10000次：
+timeit('[i for i in range(100) if i%2==0]', number=10000)
+
+—————————————————————
+测试一个函数的执行时间：
+
+from timeit import timeit
+
+def func():
+    s = 0
+    for i in range(1000):
+        s += i
+    print(s)
+
+# timeit(函数名_字符串，运行环境_字符串，number=运行次数)
+t = timeit('func()', 'from __main__ import func', number=1000)
+print(t)
+
+    此程序测试函数运行1000次的执行时间
+
+
+——————————
+
+    由于电脑永远都有其他程序也在占用着资源，你的程序不可能最高效的执行。所以一般都会进行多次试验，取最少的执行时间为真正的执行时间。
+
+from timeit import repeat
+
+def func():
+    s = 0
+    for i in range(1000):
+        s += i
+
+#repeat和timeit用法相似，多了一个repeat参数，表示重复测试的次数(可以不写，默认值为3.)，返回值为一个时间的列表。
+t = repeat('func()', 'from __main__ import func', number=100, repeat=5)
+print(t) 
+print(min(t))
+
+————————————
+展开
+expand((x+1)*(x+2)*(x+3))
+Out[15]: x**3 + 6*x**2 + 11*x + 6
+
+%特别地对三角函数可以这么玩：
+expand('sin(a+b)', trig=True)
+Out[18]: sin(a)*cos(b) + sin(b)*cos(a)
+
+因式分解
+factor(x**3 + 6 * x**2 + 11*x + 6)
+Out[19]: (x + 1)*(x + 2)*(x + 3)
