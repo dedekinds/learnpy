@@ -763,4 +763,60 @@ fig
 #横坐标的是希腊字母
 #纵坐标是一些数字
 
+—————————————双坐标——————
+fig, ax1 = plt.subplots()
 
+ax1.plot(x, x**2, lw=2, color="blue")
+ax1.set_ylabel(r"area $(m^2)$", fontsize=18, color="blue")
+for label in ax1.get_yticklabels():
+    label.set_color("blue")
+
+ax2 = ax1.twinx()
+ax2.plot(x, x**3, lw=2, color="red")
+ax2.set_ylabel(r"volume $(m^3)$", fontsize=18, color="red")
+for label in ax2.get_yticklabels():
+    label.set_color("red")
+
+fig
+
+——————————3D绘图————————————————
+#https://www.shiyanlou.com/courses/348/labs/1081/document
+    2.3 3D 图
+        2.3.1 绘制曲面
+        2.3.2 绘制线框
+        2.3.3 绘制投影轮廓
+        2.3.4 改变视图角度
+    2.4 动画
+    2.5 后端
+        2.5.1 使用 svg 后端生成 svg 图片
+        2.5.2 可交互后端
+
+绘制线框型三维图
+import matplotlib.pyplot as plt
+from numpy import *
+from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+fig = plt.figure(figsize=(8,6))
+ax = fig.add_subplot(1, 1, 1, projection='3d')
+p = ax.plot_wireframe(X, Y, Z, rstride=4, cstride=4)
+#https://www.shiyanlou.com/courses/348/labs/1081/document
+
+
+————————————代数系统——————————
+from sympy import *
+init_printing()#LaTeX输出
+x = Symbol('x')
+
+(pi + x)**2
+
+————————————————eval——————————————
+from sympy import *
+from pylab import *
+import numpy
+
+x_vec = numpy.arange(0, 10, 0.1)
+y_vec = numpy.array([N(((x + pi)**2).subs(x, xx)) for xx in x_vec])
+fig, ax = subplots()
+ax.plot(x_vec, y_vec);
+
+#pi.evalf(n=50) 取pi的50位精确度
