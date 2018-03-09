@@ -131,7 +131,7 @@ import tensorflow as tf
 import numpy as np
 
 def add_layer(inputs ,in_size ,out_size ,activation_function=None):
-    
+    #注意x的维度，是行向量
     Weights = tf.Variable(tf.random_normal([in_size ,out_size]))
     biases = tf.Variable(tf.zeros([1,out_size]) + 0.1)
     Wx_plus_b = tf.matmul(inputs ,Weights) + biases
@@ -146,16 +146,20 @@ def add_layer(inputs ,in_size ,out_size ,activation_function=None):
 
 
 x_data = np.linspace(-1,1,300, dtype=np.float32)[:, np.newaxis]
+    #[:, np.newaxis]在这里起到的转置的作用
 noise = np.random.normal(0, 0.05, x_data.shape).astype(np.float32)
 y_data = np.square(x_data) - 0.5 + noise
 
 xs=tf.placeholder(tf.float32,[None,1])
+    #tf.float32不能省略
+    #[None,1]中的None表示可以是任意的数值
 ys=tf.placeholder(tf.float32,[None,1])
 
 l1 = add_layer(xs ,1 ,10 ,tf.nn.relu)
 prediction = add_layer(l1 ,10 ,1 ,activation_function=None)
 
 loss = tf.reduce_mean( tf.reduce_sum( tf.square(ys-prediction) ,reduction_indices=[1] ) )
+    #reduction_indices=[1]实际上就是MATLAB中sum(a,1) or sum(a,2)的作用
 train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
 init = tf.global_variables_initializer()
