@@ -112,7 +112,7 @@ cv2.destroyAllWindows()
 读取视频
 import numpy as np 
 import cv2
-cap = cv2.VideoCapture('input.avi')#你应该确保你已经装了合适版本的 ffmpeg
+cap = cv2.VideoCapture('input.avi')#你应该确保你已经装了合适版本的 ffmpeg, pip install opencv-python
 while(cap.isOpened()):
     # 从摄像头读取一帧，ret是表明成功与否
     ret, frame = cap.read() 
