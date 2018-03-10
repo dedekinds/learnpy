@@ -59,7 +59,7 @@ print(df['A'],df.A)
 2013-01-06    20
 '''
 
-print(df[0:3])
+print(df[0:3])#取数据
 
 '''
             A  B   C   D
@@ -87,7 +87,7 @@ print(df.iloc[3,1])
 13
 '''
 
-df.iloc[2,2]=23333
+df.iloc[2,2]=23333#修改数据
 df.loc['20130105','B']=23333
 
 '''
@@ -111,7 +111,7 @@ df.A[df.A>4]='test'
 2013-01-06  test  21  22  23
 '''
 
-df['F']=np.nan
+df['F']=np.nan#增加一行数据
 '''
                A   B   C   D   F
 2013-01-01     0   1   2   3 NaN
@@ -199,12 +199,12 @@ data = pd.DataFrame(np.random.randn(1000,4),
                     index = np.arange(1000),
                     columns = list("ABCD"))
 
-data = data.cumsum()
+data = data.cumsum()#累加
 data.plot()
 
 
 ####
-ax = data.plot.scatter(x='A',y='B',color='DarkBlue',label='Class1')
+ax = data.plot.scatter(x='A',y='B',color='DarkBlue',label='Class1')#散点图
 # 将之下这个 data 画在上一个 ax 上面
 data.plot.scatter(x='A',y='C',color='LightGreen',label='Class2',ax=ax)
 plt.show()
