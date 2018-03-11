@@ -209,7 +209,7 @@ with tf.Session() as sess:
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+mnist = input_data.read_data_sets('MNIST_data', one_hot=True)#one_hot限制格式为0 1
 
 def add_layer(inputs ,in_size ,out_size ,activation_function=None):
     #注意x的维度，是行向量
@@ -258,9 +258,9 @@ with tf.Session() as sess:
                 print(compute_accuracy(mnist.test.images, mnist.test.labels))#计算测试集的准确性
                 #print(sess.run(cross_entropy,feed_dict={xs: batch_xs, ys: batch_ys}))#输出误差（交叉熵
 
-        
-        
-        
+                
+#——————————————————————————————————————————————————————————————
+
         
         
         
