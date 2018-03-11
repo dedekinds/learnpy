@@ -159,7 +159,7 @@ l1 = add_layer(xs ,1 ,10 ,tf.nn.relu)
 prediction = add_layer(l1 ,10 ,1 ,activation_function=None)
 
 loss = tf.reduce_mean( tf.reduce_sum( tf.square(ys-prediction) ,reduction_indices=[1] ) )
-    #reduction_indices=[1]实际上就是MATLAB中sum(a,1) or sum(a,2)的作用
+    #reduction_indices=[1]实际上就是MATLAB中sum(a,1) 行or sum(a,2)列的作用
 train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
 init = tf.global_variables_initializer()
@@ -203,8 +203,61 @@ with tf.Session() as sess:
         
         
 
-        
-        
+#——————————————————————————————————————————
+利用MINST数据进行classfication的练习
+
+import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
+
+mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+
+def add_layer(inputs ,in_size ,out_size ,activation_function=None):
+    #注意x的维度，是行向量
+    Weights = tf.Variable(tf.random_normal([in_size ,out_size]))
+    biases = tf.Variable(tf.zeros([1,out_size]) + 0.1)
+    Wx_plus_b = tf.matmul(inputs ,Weights) + biases
+    
+    if activation_function is None:
+        output = Wx_plus_b
+    else:
+        output = activation_function(Wx_plus_b)
+    return output
+
+def compute_accuracy(v_xs, v_ys):
+    global prediction
+    y_pre = sess.run(prediction, feed_dict={xs: v_xs})
+    correct_prediction = tf.equal(tf.argmax(y_pre,1), tf.argmax(v_ys,1))
+        #y_pre is a real vector between [0,1]
+        #tf.equal(A, B)是对比这两个矩阵或者向量的相等的元素，如果是相等的那就返回True，反正返回False
+        #tf.argmax(vector, 1)：返回的是vector中的最大值的索引号
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        #tf.cast(x, dtype, name=None)
+        #x:input
+        #dtype:target type
+    result = sess.run(accuracy, feed_dict={xs: v_xs, ys: v_ys})
+    return result
+    
+    
+xs=tf.placeholder(tf.float32,[None,784])#28*28=784
+ys=tf.placeholder(tf.float32,[None,10])#
+
+prediction = add_layer(xs,784,10,activation_function=tf.nn.softmax)
+
+#loss
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),reduction_indices=[1]))
+
+train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    for i in range(3000):
+        batch_xs, batch_ys = mnist.train.next_batch(100)#取下一波100组数据
+        sess.run(train_step, feed_dict={xs: batch_xs, ys: batch_ys})
+        if i % 50 == 0:
+                print(compute_accuracy(mnist.test.images, mnist.test.labels))#计算测试集的准确性
+                #print(sess.run(cross_entropy,feed_dict={xs: batch_xs, ys: batch_ys}))#输出误差（交叉熵
+
         
         
         
