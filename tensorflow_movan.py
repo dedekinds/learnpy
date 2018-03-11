@@ -199,11 +199,10 @@ with tf.Session() as sess:
             ax.lines.remove(lines[0])
             plt.pause(0.1)#需要在pyplot.py上加入import time
 
+#没能成功在原有的scatter上生成所需要的线段==、
+        
+        
 
-        
-        
-        
-        
         
         
         
