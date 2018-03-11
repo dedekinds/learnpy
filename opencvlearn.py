@@ -127,3 +127,16 @@ while(cap.isOpened()):
 cap.release()
 cv2.destroyAllWindows()
 
+#————————————————————————————————————————————
+画矩形
+
+import cv2
+
+img = cv2.imread('test.jpg')
+cv2.rectangle(img,(20,50),(60,40),(0,0,0,),3)
+cv2.imshow('image',img)
+
+cv2.waitKey(0)&0xFF
+cv2.destroyAllWindows()
+
+
