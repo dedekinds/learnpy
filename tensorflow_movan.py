@@ -171,3 +171,45 @@ with tf.Session() as sess:
         if i%50==0:
             print(sess.run(loss ,feed_dict={xs:x_data ,ys:y_data}))
         
+
+
+_____________________________________________________________________________________
+训练可视化
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+‘’‘
+同上
+’‘’
+
+with tf.Session() as sess:
+    sess.run(init)
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)#*subplot(a,b,c),将画面变为a*b，然后放置在第c个
+    ax.scatter(x_data,y_data)
+    plt.ion()#打开交互模式，show()之后程序不暂停，类似hold on ?
+    plt.show()
+    for i in range(10000):
+        sess.run(train_step ,feed_dict={xs:x_data ,ys:y_data})
+        if i%50==0:
+            #print(sess.run(loss ,feed_dict={xs:x_data ,ys:y_data}))
+            prediction_value = sess.run(prediction,feed_dict={xs:x_data})
+            lines = ax.plot(x_data,prediction_value,'r-',lw=5)
+            ax.lines.remove(lines[0])
+            plt.pause(0.1)#需要在pyplot.py上加入import time
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
