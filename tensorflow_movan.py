@@ -234,6 +234,7 @@ def compute_accuracy(v_xs, v_ys):
         #tf.cast(x, dtype, name=None)
         #x:input
         #dtype:target type
+        #True-->1.0  False-->0.0
     result = sess.run(accuracy, feed_dict={xs: v_xs, ys: v_ys})
     return result
     
@@ -381,6 +382,8 @@ h_pool2 = max_pool_2x2(h_conv2)##7*7*64
 W_fc1 = weight_variable([7*7*64,1024]) 
 b_fc1 = bias_variable([1024])
 h_pool2_flat=tf.reshape(h_pool2,[-1,7*7*64]) #flat [n_samples,7,7,64]-->[n_sample,7*7*64]
+    #tf.reshape(t,[-1,a]):每列a个，行的话就是总数/a
+    #tf.reshape(t,[a,-1]):每行a个，列的花就是总数/a
 
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat,W_fc1)+b_fc1)
 h_fc1_drop=tf.nn.dropout(h_fc1,keep_prob)
